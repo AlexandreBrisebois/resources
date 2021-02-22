@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31004.235
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "megaphone.resources", "megaphone.resources\megaphone.resources.csproj", "{B9362B3E-726C-452F-9D23-7C696E09CA83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "magephone.resources.tests", "magephone.resources.tests\magephone.resources.tests.csproj", "{0E85F189-EA42-49C6-A909-D2392608855B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "megaphone.resources.tests", "megaphone.resources.tests\megaphone.resources.tests.csproj", "{0E85F189-EA42-49C6-A909-D2392608855B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB4F241F-E714-49D0-B4CD-1825B163C611}"
 	ProjectSection(SolutionItems) = preProject
