@@ -1,15 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Megaphone.Resources.Tests</AssemblyName>
-    <RootNamespace>Megaphone.Resources.Tests</RootNamespace>
+    <AssemblyName>Megaphone.Resources.Core.Tests</AssemblyName>
+    <RootNamespace>Megaphone.Resources.Core.Tests</RootNamespace>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Megaphone.Standard" Version="1.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -24,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\megaphone.resources.core\megaphone.resources.core.csproj" />
-    <ProjectReference Include="..\megaphone.resources\megaphone.resources.csproj" />
   </ItemGroup>
 
 </Project>

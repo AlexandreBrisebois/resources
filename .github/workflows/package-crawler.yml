@@ -34,6 +34,9 @@ jobs:
     - name: test - megaphone.resources
       run: dotnet test "./src/megaphone.resources.tests/megaphone.resources.tests.csproj" -c Release --no-build
    
+    - name: test - megaphone.resources.core
+      run: dotnet test "./src/megaphone.resources.core.tests/megaphone.resources.core.tests.csproj" -c Release --no-build
+   
     - name: package - megaphone.resources
       run: dotnet publish "./src/megaphone.resources/megaphone.resources.csproj" -c Release --no-build
 

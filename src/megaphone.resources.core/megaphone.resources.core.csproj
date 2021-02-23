@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Megaphone.Resources.Core</AssemblyName>
+    <RootNamespace>Megaphone.Resources.Core</RootNamespace>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Megaphone.Standard" Version="1.0.1" />
+  </ItemGroup>
+
+</Project>

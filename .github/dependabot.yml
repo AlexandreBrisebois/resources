@@ -14,3 +14,11 @@ updates:
     directory: "src/megaphone.resources.tests/"
     schedule:
       interval: "daily"
+  - package-ecosystem: "nuget"
+    directory: "src/megaphone.resources.core/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget"
+    directory: "src/megaphone.resources.core.tests/"
+    schedule:
+      interval: "daily"
