@@ -7,17 +7,12 @@ using Microsoft.Extensions.Logging;
 using megaphone.resources.core;
 using Megaphone.Standard.Services;
 using Megaphone.Resources.Core.Models;
-using System.IO;
 using Megaphone.Resources.Representations;
-using System.Linq;
 using Megaphone.Resources.Core.Views;
 using System.Text.Json;
-using System;
-using System.Net.Http;
 
 namespace Megaphone.Resources
 {
-
     public static class ResourceFunctions
     {
         private static ResourceService resourceService = new ResourceService(new InMemoryPartitionedStorageService<Resource>());
@@ -82,3 +77,24 @@ namespace Megaphone.Resources
         }
     }
 }
+
+
+// #TODO: use this in Resource Service
+
+//var commandMessage = MessageBuilder.NewCommand("crawl-request")
+//          .WithParameters("uri", r.Self.AbsoluteUri)
+//          .WithParameters("id", r.Id)
+//          .WithParameters("display", r.Display)
+//          .WithParameters("description", r.Description)
+//          .WithParameters("published", r.Published.ToString("s"))
+//          .Make();
+
+//var response = await httpClient.PostAsync(crawlApiUrl, new StringContent(JsonConvert.SerializeObject(commandMessage)));
+
+//if (response.StatusCode == System.Net.HttpStatusCode.OK)
+//{
+//    var content = await response.Content.ReadAsStringAsync();
+//    var resource = JsonConvert.DeserializeObject<Resource>(content);
+//    return resource;
+//}
+//return Resource.Empty;
