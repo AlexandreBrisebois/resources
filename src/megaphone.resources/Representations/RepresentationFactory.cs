@@ -3,7 +3,6 @@ using Megaphone.Standard.Representations.Links;
 
 namespace Megaphone.Resources.Representations
 {
-
     public partial class RepresentationFactory
     {
         public static ResourceRepresentation MakeRepresentation(ResourceView view)

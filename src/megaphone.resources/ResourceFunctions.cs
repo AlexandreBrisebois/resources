@@ -19,7 +19,7 @@ namespace Megaphone.Resources
 
         [FunctionName("post-resource")]
         public static async Task<SystemTextJsonResult> PostResource(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "resources")] HttpRequest req,
             ILogger log)
         {
             var resource = await JsonSerializer.DeserializeAsync<Resource>(req.Body);
@@ -45,17 +45,17 @@ namespace Megaphone.Resources
         }
 
         [FunctionName("get-resource")]
-        public static async Task<SystemTextJsonResult> GetResource([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{id}")] HttpRequest req, string id, ILogger logger)
+        public static async Task<SystemTextJsonResult> GetResource([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "resources/{id}")] HttpRequest req, string id, ILogger logger)
         {
             var view = await resourceService.GetAsync(id);
 
             var representation = RepresentationFactory.MakeRepresentation(view);
 
             return new SystemTextJsonResult(representation, options: null);
-        } 
-        
+        }
+
         [FunctionName("get-resource-cache")]
-        public static async Task<SystemTextJsonResult> GetResourceCache([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{id}/cache")] HttpRequest req, string id, ILogger logger)
+        public static async Task<SystemTextJsonResult> GetResourceCache([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "resources/{id}/cache")] HttpRequest req, string id, ILogger logger)
         {
             var view = await resourceService.GetCacheAsync(id);
 
