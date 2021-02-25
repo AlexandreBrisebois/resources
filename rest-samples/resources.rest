@@ -2,7 +2,7 @@
 
 #@api-service = localhost:7071
 
-@resource-id = d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9
+@resource-id = c50f7543-6b69-5e46-ae5e-bf0b82dede0e
 
 ### POST Resource
 POST http://{{api-service}}/api/resources
