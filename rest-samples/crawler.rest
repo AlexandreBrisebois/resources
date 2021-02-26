@@ -2,6 +2,8 @@
 
 #@api-service = 127.0.0.1:33146
 
+@api-service = 127.0.0.1:7071
+
 ### Add Resource
 POST http://{{api-service}}/api/crawl
 Content-Type: application/json
