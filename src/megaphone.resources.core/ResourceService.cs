@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 
 namespace megaphone.resources.core
 {
-    public class ResourceService
+    public class ResourceService : IResourceService
     {
-        private readonly InMemoryPartitionedStorageService<Resource> storageService;
+        private readonly IPartionedStorageService<Resource> storageService;
 
-        public ResourceService(InMemoryPartitionedStorageService<Resource> storageService)
+        public ResourceService(IPartionedStorageService<Resource> storageService)
         {
             this.storageService = storageService;
         }
 
         public async Task AddAsync(Resource r)
         {
-           await storageService.SetAsync(r.Id, r.Id, r);
+            await storageService.SetAsync(r.Id, r.Id, r);
         }
 
         public async Task<ResourceView> GetAsync(string id)
@@ -27,20 +27,20 @@ namespace megaphone.resources.core
             {
                 Display = r.Display,
                 Id = r.Id,
-                Url = r.Self.ToString(), 
+                Url = r.Self.ToString(),
                 Created = r.Created,
                 Description = r.Description,
                 IsActive = r.IsActive,
-                Published = r.Published, 
+                Published = r.Published,
                 StatusCode = r.StatusCode,
                 Type = r.Type
             };
         }
-        
+
         public async Task<ResourceCacheView> GetCacheAsync(string id)
         {
             var r = await storageService.GetAsync(id, id);
-           
+
             return new ResourceCacheView
             {
                 Cache = r.Cache,

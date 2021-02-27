@@ -1,6 +1,5 @@
-FROM mcr.microsoft.com/azure-functions/dotnet:3.0-slim AS final
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine AS final
 EXPOSE 80
-WORKDIR /home/site/wwwroot
+WORKDIR /app
 COPY . .
-ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
-    AzureFunctionsJobHost__Logupdateging__Console__IsEnabled=true
+ENTRYPOINT ["dotnet", "megaphone.resources.dll"]

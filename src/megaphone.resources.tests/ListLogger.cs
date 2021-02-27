@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Megaphone.Resources.Tests
 {
-    public class ListLogger : ILogger
+    public class ListLogger<ResourceController> : ILogger<ResourceController>
     {
         public IList<string> Logs;
 

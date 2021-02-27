@@ -7,7 +7,7 @@ namespace Megaphone.Resources.Representations
     {
         [JsonPropertyName("url")]
         public string Url { get; set; } = string.Empty;
-        
+
         [JsonPropertyName("cache")]
         public string Cache { get; set; } = string.Empty;
     }

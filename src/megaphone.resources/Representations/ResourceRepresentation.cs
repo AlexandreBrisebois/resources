@@ -23,5 +23,5 @@ namespace Megaphone.Resources.Representations
         public string Description { get; set; } = string.Empty;
         [JsonPropertyName("published")]
         public DateTimeOffset Published { get; set; }
-    } 
+    }
 }
