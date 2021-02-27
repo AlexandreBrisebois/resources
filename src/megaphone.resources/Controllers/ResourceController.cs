@@ -2,9 +2,7 @@
 using Megaphone.Resources.Core.Models;
 using Megaphone.Resources.Core.Views;
 using Megaphone.Resources.Representations;
-using Megaphone.Standard.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Megaphone.Resources.Controllers
@@ -13,8 +11,8 @@ namespace Megaphone.Resources.Controllers
     [Route("api/resources")]
     public class ResourceController : ControllerBase
     {
-        private readonly  ResourceService resourceService;
-        public ResourceController(ResourceService resourceService)
+        private readonly IResourceService resourceService;
+        public ResourceController(IResourceService resourceService)
         {
             this.resourceService = resourceService;
         }
