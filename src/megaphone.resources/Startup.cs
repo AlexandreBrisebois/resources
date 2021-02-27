@@ -1,3 +1,6 @@
+using Dapr.Client;
+using megaphone.resources.core;
+using Megaphone.Resources.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,8 +22,10 @@ namespace Megaphone.Resources
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var daprClient = new DaprClientBuilder().Build();
 
-            services.AddControllers();
+            services.AddControllers().AddDapr();
+            services.AddSingleton<IResourceService>(new ResourceService(new ResourceStorageService(daprClient)));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Megaphone.Resources", Version = "v1" });
@@ -39,10 +44,13 @@ namespace Megaphone.Resources
 
             app.UseRouting();
 
+            app.UseCloudEvents();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapSubscribeHandler();
                 endpoints.MapControllers();
             });
         }

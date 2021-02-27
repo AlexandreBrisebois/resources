@@ -1,7 +1,8 @@
+using megaphone.resources.core;
 using Megaphone.Resources.Controllers;
 using Megaphone.Resources.Core.Models;
+using Megaphone.Standard.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -14,9 +15,7 @@ namespace Megaphone.Resources.Tests
         [Fact]
         public async Task PostResourceTest()
         {
-            ILogger<ResourceController> logger = new ListLogger<ResourceController>();
-
-            ResourceController controller = new(logger);
+            ResourceController controller = new(new ResourceService(new InMemoryStorageService<Resource>()));
 
             var id = "d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9";
             var input = new Resource { Id = id, Self = new Uri("https://devblogs.microsoft.com/dotnet/staying-safe-with-dotnet-containers/") };
@@ -29,9 +28,7 @@ namespace Megaphone.Resources.Tests
         [Fact]
         public async Task GetResourceRepresentationTest()
         {
-            ILogger<ResourceController> logger = new ListLogger<ResourceController>();
-
-            ResourceController controller = new(logger);
+            ResourceController controller = new(new ResourceService(new InMemoryStorageService<Resource>()));
 
             var id = "d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9";
             var input = new Resource { Id = id, Self = new Uri("https://devblogs.microsoft.com/dotnet/staying-safe-with-dotnet-containers/"), Cache = "cached value" };
@@ -46,9 +43,7 @@ namespace Megaphone.Resources.Tests
         [Fact]
         public async Task GetResourceCacheRepresentationTest()
         {
-            ILogger<ResourceController> logger = new ListLogger<ResourceController>();
-
-            ResourceController controller = new(logger);
+            ResourceController controller = new(new ResourceService(new InMemoryStorageService<Resource>()));
 
             var id = "d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9";
             var input = new Resource { Id = id, Self = new Uri("https://devblogs.microsoft.com/dotnet/staying-safe-with-dotnet-containers/"), Cache = "cached value" };

@@ -13,13 +13,10 @@ namespace Megaphone.Resources.Controllers
     [Route("api/resources")]
     public class ResourceController : ControllerBase
     {
-        private static ResourceService resourceService = new ResourceService(new InMemoryPartitionedStorageService<Resource>());
-
-        private readonly ILogger<ResourceController> _logger;
-
-        public ResourceController(ILogger<ResourceController> logger)
+        private readonly  ResourceService resourceService;
+        public ResourceController(ResourceService resourceService)
         {
-            _logger = logger;
+            this.resourceService = resourceService;
         }
 
         [Route("")]

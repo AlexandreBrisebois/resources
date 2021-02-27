@@ -7,21 +7,21 @@ namespace megaphone.resources.core
 {
     public class ResourceService : IResourceService
     {
-        private readonly IPartionedStorageService<Resource> storageService;
+        private readonly IStorageService<Resource> storageService;
 
-        public ResourceService(IPartionedStorageService<Resource> storageService)
+        public ResourceService(IStorageService<Resource> storageService)
         {
             this.storageService = storageService;
         }
 
         public async Task AddAsync(Resource r)
         {
-            await storageService.SetAsync(r.Id, r.Id, r);
+            await storageService.SetAsync(r.Id, r);
         }
 
         public async Task<ResourceView> GetAsync(string id)
         {
-            var r = await storageService.GetAsync(id, id);
+            var r = await storageService.GetAsync(id);
 
             return new ResourceView
             {
@@ -39,7 +39,7 @@ namespace megaphone.resources.core
 
         public async Task<ResourceCacheView> GetCacheAsync(string id)
         {
-            var r = await storageService.GetAsync(id, id);
+            var r = await storageService.GetAsync(id);
 
             return new ResourceCacheView
             {

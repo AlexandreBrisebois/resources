@@ -12,14 +12,14 @@ namespace Megaphone.Resources.Core.Tests
         [Fact]
         public void CreateResourceServiceInstance()
         {
-            var service = new ResourceService(new InMemoryPartitionedStorageService<Resource>());
+            var service = new ResourceService(new InMemoryStorageService<Resource>());
         }
 
         [Fact]
         public async Task AddResource()
         {
             var id = "d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9";
-            var service = new ResourceService(new InMemoryPartitionedStorageService<Resource>());
+            var service = new ResourceService(new InMemoryStorageService<Resource>());
             await service.AddAsync(new Resource() { Id = id });
         }
 
@@ -27,7 +27,7 @@ namespace Megaphone.Resources.Core.Tests
         public async Task GetResourceById()
         {
             var id = "d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9";
-            var service = new ResourceService(new InMemoryPartitionedStorageService<Resource>());
+            var service = new ResourceService(new InMemoryStorageService<Resource>());
             await service.AddAsync(new Resource { Id = id, Self = new Uri("https://devblogs.microsoft.com/dotnet/staying-safe-with-dotnet-containers/") });
             var resource = await service.GetAsync(id);
 
@@ -38,7 +38,7 @@ namespace Megaphone.Resources.Core.Tests
         public async Task GetResourceCacheById()
         {
             var id = "d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9";
-            var service = new ResourceService(new InMemoryPartitionedStorageService<Resource>());
+            var service = new ResourceService(new InMemoryStorageService<Resource>());
             await service.AddAsync(new Resource { Id = id, Self = new Uri("https://devblogs.microsoft.com/dotnet/staying-safe-with-dotnet-containers/"), Cache = "cached content"});
             var resource = await service.GetCacheAsync(id);
 
