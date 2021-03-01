@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 namespace Megaphone.Resources.Services
 {
-
     public class ResourceStorageService : IStorageService<Resource>
     {
         const string STATE_STORE = "resource-state";
@@ -20,14 +19,14 @@ namespace Megaphone.Resources.Services
         public async Task<Resource> GetAsync(string key)
         {
 
-            var (value, etag) = await this.client.GetStateAndETagAsync<Resource>(STATE_STORE, key);
+            var (value, etag) = await client.GetStateAndETagAsync<Resource>(STATE_STORE, key);
 
             return value ?? Resource.Empty;
         }
 
         public async Task SetAsync(string key, Resource content)
         {
-            await this.client.SaveStateAsync(STATE_STORE, key, content);
+            await client.SaveStateAsync(STATE_STORE, key, content);
         }
     }
 }

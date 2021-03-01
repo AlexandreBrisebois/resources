@@ -1,6 +1,9 @@
-﻿using megaphone.resources.core;
+﻿using Dapr.Client;
+using megaphone.resources.core;
+using Megaphone.Resources.Commands;
 using Megaphone.Resources.Core.Models;
 using Megaphone.Resources.Core.Views;
+using Megaphone.Resources.Events;
 using Megaphone.Resources.Representations;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -12,9 +15,13 @@ namespace Megaphone.Resources.Controllers
     public class ResourceController : ControllerBase
     {
         private readonly IResourceService resourceService;
-        public ResourceController(IResourceService resourceService)
+        private readonly DaprClient daprClient;
+
+        public ResourceController(IResourceService resourceService, 
+                                  [FromServices] DaprClient daprClient)
         {
             this.resourceService = resourceService;
+            this.daprClient = daprClient;
         }
 
         [Route("")]
@@ -23,20 +30,9 @@ namespace Megaphone.Resources.Controllers
         {
             await resourceService.AddAsync(resource);
 
-            var resourceView = new ResourceView
-            {
-                Display = resource.Display,
-                Id = resource.Id,
-                Url = resource.Self.ToString(),
-                Created = resource.Created,
-                Description = resource.Description,
-                IsActive = resource.IsActive,
-                Published = resource.Published,
-                StatusCode = resource.StatusCode,
-                Type = resource.Type
-            };
-
-            var representation = RepresentationFactory.MakeRepresentation(resourceView);
+            var e = EventFactory.MakeResourceUpdateEvent(resource);
+            var c = new PublishResourceUpdateEvent(e);
+            await c.ApplyAsync(daprClient);
 
             return Accepted();
         }

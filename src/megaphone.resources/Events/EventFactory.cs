@@ -1,6 +1,6 @@
-using Standard.Events;
+using Megaphone.Resources.Core.Models;
+using Megaphone.Standard.Events;
 using System;
-using System.Collections.Generic;
 
 namespace Megaphone.Resources.Events
 {
