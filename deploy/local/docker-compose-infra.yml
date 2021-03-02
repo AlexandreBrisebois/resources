@@ -1,33 +1,17 @@
 version: "3.9"
 networks:
-  megaphone-network:
-    name: megaphone-network
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.28.0.0/16
+  default:
+    external:
+      name: dapr-dev-container
 volumes:
-  sqlserver_volume:
   rabbitmq_volume:
 services:
   ############################
-  # SQL Server
+  # Redis
   ############################
-  sqlserver:
-    container_name: sqlserver
-    restart: always
-    image: mcr.microsoft.com/mssql/server:2019-CU9-ubuntu-16.04
-    hostname: sqlserver
-    environment:
-    - ACCEPT_EULA=y
-    - MSSQL_PID=Developer
-    - MSSQL_SA_PASSWORD=Qwerty1!
-    volumes:
-    - "sqlserver_volume:/var/opt/mssql"
-    networks:
-      - megaphone-network
-    ports:
-      - "1433:1433"
+  dapr_redis:
+    image: 'redis:latest'
+    container_name: dapr_redis
   ############################
   # RabbitMQ
   ############################
@@ -51,16 +35,5 @@ services:
       - LANG=C.UTF-8
       - LANGUAGE=C.UTF-8
       - LC_ALL=C.UTF-8
-    networks:
-      - megaphone-network
-    ports:
-      - "15671:15671"
-      - "15672:15672"
-      - "15691:15691"
-      - "15692:15692"
-      - "25672:25672"
-      - "4369:4369"
-      - "5671:5671"
-      - "5672:5672"
     volumes:
       - "rabbitmq_volume:/var/lib/rabbitmq"

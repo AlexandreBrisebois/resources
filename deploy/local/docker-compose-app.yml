@@ -11,9 +11,6 @@ services:
     container_name: crawler
     restart: always
     image: ds1520plusregistry.azurecr.io/crawler:latest
-    depends_on:
-      - placement
-      - resources
     environment:
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       - ASPNETCORE_URLS=http://+:80
@@ -41,19 +38,18 @@ services:
      "-placement-host-address", "placement:50006",
      "-components-path", "/components"]
     volumes:
-        - "./components/:/components"
+        - "../../components/debug-redis/:/components"
     depends_on:
       - crawler
     network_mode: "service:crawler"
   ############################
-  # Crawler + Dapr sidecar
+  # Feeds + Dapr sidecar
   ############################
   feeds:
     container_name: feeds
     restart: always
     image: ds1520plusregistry.azurecr.io/feeds:latest
     depends_on:
-      - placement
       - api
     environment:
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -83,19 +79,17 @@ services:
      "-placement-host-address", "placement:50006",
      "-components-path", "/components"]
     volumes:
-        - "./components/:/components"
+        - "../../components/debug-redis/:/components"
     depends_on:
       - feeds
     network_mode: "service:feeds"
   ############################
-  # Crawler + Dapr sidecar
+  # API + Dapr sidecar
   ############################
   api:
     container_name: api
     restart: always
     image: ds1520plusregistry.azurecr.io/api:latest
-    depends_on:
-      - placement
     environment:
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       - ASPNETCORE_URLS=http://+:80
@@ -123,7 +117,7 @@ services:
      "-placement-host-address", "placement:50006",
      "-components-path", "/components"]
     volumes:
-        - "./components/:/components"
+        - "../../components/debug-redis/:/components"
     depends_on:
       - api
     network_mode: "service:api"
