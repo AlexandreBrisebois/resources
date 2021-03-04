@@ -6,6 +6,8 @@ using Megaphone.Resources.Core.Views;
 using Megaphone.Resources.Events;
 using Megaphone.Resources.Representations;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Megaphone.Resources.Controllers
@@ -17,7 +19,7 @@ namespace Megaphone.Resources.Controllers
         private readonly IResourceService resourceService;
         private readonly DaprClient daprClient;
 
-        public ResourceController(IResourceService resourceService, 
+        public ResourceController(IResourceService resourceService,
                                   [FromServices] DaprClient daprClient)
         {
             this.resourceService = resourceService;
@@ -31,8 +33,12 @@ namespace Megaphone.Resources.Controllers
             await resourceService.AddAsync(resource);
 
             var e = EventFactory.MakeResourceUpdateEvent(resource);
+
             var c = new PublishResourceUpdateEvent(e);
             await c.ApplyAsync(daprClient);
+
+            if (Debugger.IsAttached)
+                Console.WriteLine($"updated resource: \"{resource.Display}\" ({resource.Published.ToString("s")})");
 
             return Accepted();
         }

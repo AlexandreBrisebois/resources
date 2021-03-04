@@ -1,33 +1,9 @@
-@api-service = HD:2001
+@crawl-service = localhost:3500
 
-#@api-service = 127.0.0.1:33146
-
-@api-service = 127.0.0.1:7071
-
-### Add Resource
-POST http://{{api-service}}/api/crawl
+### request Crawl
+POST http://{{crawl-service}}/v1.0/publish/crawl
 Content-Type: application/json
 
 {
-    "id": "80bc3136-dac4-4aad-94ea-4f6c0c6648e7",
-    "action": "crawl-request",
-    "created": "2021-02-21T19:28:18.8220101+00:00",
-    "parameters": {
-        "uri" : "https://blogs.msdn.microsoft.com/dotnet/feed"
-    },
-    "metadata": {}
- }
-
-### Add Resource
-POST http://{{api-service}}/api/crawl
-Content-Type: application/json
-
-{
-    "id": "83bc3136-dac4-4aad-94ea-4f6c0c6648e7",
-    "action": "crawl-request",
-    "created": "2021-02-21T19:28:18.8220101+00:00",
-    "parameters": {
-        "uri" : "https://blogs.windows.com/windowsexperience/2021/02/23/what-to-know-before-you-accept-that-cookie/"
-    },
-    "metadata": {}
- }
+    "url": "https://azure.microsoft.com/en-us/roadmap/feed/"
+}
