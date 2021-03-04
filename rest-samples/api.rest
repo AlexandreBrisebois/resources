@@ -5,7 +5,7 @@ GET http://{{api}}/v1.0/invoke/api/method/api/resources/
 
 
 ### List Resources by Month
-GET http://{{api}}/v1.0/invoke/api/method/api/resources/2021/1
+GET http://{{api}}/v1.0/invoke/api/method/api/resources/2021/3
 
 ### List Resources by Month
 GET http://{{api}}/v1.0/invoke/api/method/api/resources/2021/2

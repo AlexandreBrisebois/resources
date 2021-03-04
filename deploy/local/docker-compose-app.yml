@@ -9,7 +9,6 @@ services:
   ############################
   crawler:
     container_name: crawler
-    restart: always
     image: ds1520plusregistry.azurecr.io/crawler:latest
     environment:
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -27,8 +26,7 @@ services:
       - "20003:9090" # metrics-port
       - "20004:7777" # profile-port
   crawler-dapr:
-    container_name: crawler-dapr
-    restart: always
+    container_name: dapr_crawler
     image: "daprio/daprd:edge"
     command: ["./daprd",
      "-app-id", "crawler",
@@ -38,10 +36,48 @@ services:
      "-placement-host-address", "placement:50006",
      "-components-path", "/components"]
     volumes:
-      - "./components/debug-sql/:/components"
+      - "./components/debug-synology/:/components"
     depends_on:
       - crawler
     network_mode: "service:crawler"
+  ############################
+  # API + Dapr sidecar
+  ############################
+  api:
+    container_name: api
+    restart: always
+    image: ds1520plusregistry.azurecr.io/api:latest
+    environment:
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - ASPNETCORE_URLS=http://+:80
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+      - DOTNET_VERSION=5.0.3
+      - ASPNET_VERSION=5.0.3
+      - DAPR_HTTP_PORT=3500
+      - DAPR_GRPC_PORT=50001
+    ports:
+      - "40000:80" # app-port
+      - "40001:50001" # dapr-grpc-port
+      - "40002:3500" # dapr-http-port 
+      - "40003:9090" # metrics-port
+      - "40004:7777" # profile-port
+  api-dapr:
+    container_name: dapr_api
+    restart: always
+    image: "daprio/daprd:edge"
+    command: ["./daprd",
+     "-app-id", "api",
+     "-app-port", "80",
+     "-dapr-grpc-port", "50001",
+     "-dapr-http-port", "3500",
+     "-placement-host-address", "placement:50006",
+     "-components-path", "/components"]
+    volumes:
+      - "./components/debug-synology/:/components"
+    depends_on:
+      - api
+    network_mode: "service:api"
   ############################
   # Feeds + Dapr sidecar
   ############################
@@ -67,7 +103,7 @@ services:
       - "30003:9090" # metrics-port
       - "30004:7777" # profile-port
   feeds-dapr:
-    container_name: feeds-dapr
+    container_name: dapr_feeds
     restart: always
     image: "daprio/daprd:edge"
     command: ["./daprd",
@@ -79,45 +115,7 @@ services:
      "-placement-host-address", "placement:50006",
      "-components-path", "/components"]
     volumes:
-      - "./components/debug-sql/:/components"
+      - "./components/debug-synology/:/components"
     depends_on:
       - feeds
     network_mode: "service:feeds"
-  ############################
-  # API + Dapr sidecar
-  ############################
-  api:
-    container_name: api
-    restart: always
-    image: ds1520plusregistry.azurecr.io/api:latest
-    environment:
-      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      - ASPNETCORE_URLS=http://+:80
-      - DOTNET_RUNNING_IN_CONTAINER=true
-      - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
-      - DOTNET_VERSION=5.0.3
-      - ASPNET_VERSION=5.0.3
-      - DAPR_HTTP_PORT=3500
-      - DAPR_GRPC_PORT=50001
-    ports:
-      - "40000:80" # app-port
-      - "40001:50001" # dapr-grpc-port
-      - "40002:3500" # dapr-http-port 
-      - "40003:9090" # metrics-port
-      - "40004:7777" # profile-port
-  api-dapr:
-    container_name: api-dapr
-    restart: always
-    image: "daprio/daprd:edge"
-    command: ["./daprd",
-     "-app-id", "api",
-     "-app-port", "80",
-     "-dapr-grpc-port", "50001",
-     "-dapr-http-port", "3500",
-     "-placement-host-address", "placement:50006",
-     "-components-path", "/components"]
-    volumes:
-      - "./components/debug-sql/:/components"
-    depends_on:
-      - api
-    network_mode: "service:api"
