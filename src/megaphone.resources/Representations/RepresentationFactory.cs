@@ -9,6 +9,8 @@ namespace Megaphone.Resources.Representations
         {
             var r = new ResourceLastUpdateRepresentation
             {
+                IsActive = view.IsActive,
+                Type = view.Type,
                 LastUpdated = view.Created
             };
 
