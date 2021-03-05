@@ -57,8 +57,8 @@ namespace Megaphone.Resources.Controllers
             return representation;
         }
 
-        [HttpHead()]
-        [Route("{id}")]
+        [HttpGet()]
+        [Route("{id}/last-updated")]
         [ProducesResponseType(typeof(ResourceLastUpdateRepresentation), (int)HttpStatusCode.OK)]
         public async Task<ResourceLastUpdateRepresentation> HeadResource(string id)
         {
