@@ -5,6 +5,8 @@ namespace Megaphone.Resources.Core.Views
 {
     public class ResourceView
     {
+        public static readonly ResourceView Empty = new();
+
         [JsonPropertyName("display")]
         public string Display { get; set; } = string.Empty;
         [JsonPropertyName("url")]

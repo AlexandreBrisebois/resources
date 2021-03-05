@@ -23,6 +23,9 @@ namespace megaphone.resources.core
         {
             var r = await storageService.GetAsync(id);
 
+            if (r == Resource.Empty)
+                return ResourceView.Empty;
+
             return new ResourceView
             {
                 Display = r.Display,

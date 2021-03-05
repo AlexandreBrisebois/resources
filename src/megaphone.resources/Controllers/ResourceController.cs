@@ -6,8 +6,10 @@ using Megaphone.Resources.Core.Views;
 using Megaphone.Resources.Events;
 using Megaphone.Resources.Representations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Megaphone.Resources.Controllers
@@ -28,6 +30,7 @@ namespace Megaphone.Resources.Controllers
 
         [Route("")]
         [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
         public async Task<IActionResult> PostAsync(Resource resource)
         {
             await resourceService.AddAsync(resource);
@@ -45,11 +48,31 @@ namespace Megaphone.Resources.Controllers
 
         [HttpGet()]
         [Route("{id}")]
+        [ProducesResponseType(typeof(ResourceRepresentation),(int)HttpStatusCode.OK)]
         public async Task<ResourceRepresentation> GetResource(string id)
         {
             var view = await resourceService.GetAsync(id);
+
             var representation = RepresentationFactory.MakeRepresentation(view);
             return representation;
+        }
+
+        [HttpHead()]
+        [Route("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> HeadResource(string id)
+        {
+            var view = await resourceService.GetAsync(id);
+
+            if (view == ResourceView.Empty)
+            {
+                return this.NotFound();
+            }
+
+            Response.Headers.Add("last-update", new StringValues(view.Created.ToString("s")));
+
+            return this.Ok();
         }
 
         [HttpGet()]
