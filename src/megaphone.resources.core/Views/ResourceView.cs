@@ -5,7 +5,7 @@ namespace Megaphone.Resources.Core.Views
 {
     public class ResourceView
     {
-        public static readonly ResourceView Empty = new();
+        public static readonly ResourceView Empty = new() { Created = DateTimeOffset.MinValue };
 
         [JsonPropertyName("display")]
         public string Display { get; set; } = string.Empty;

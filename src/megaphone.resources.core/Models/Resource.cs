@@ -29,6 +29,6 @@ namespace Megaphone.Resources.Core.Models
         [JsonPropertyName("resources")]
         public List<Resource> Resources { get; init; } = new List<Resource>();
 
-        public static readonly Resource Empty = new();
+        public static readonly Resource Empty = new() { Created = DateTimeOffset.MinValue };
     }
 }

@@ -59,20 +59,12 @@ namespace Megaphone.Resources.Controllers
 
         [HttpHead()]
         [Route("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> HeadResource(string id)
+        [ProducesResponseType(typeof(ResourceLastUpdateRepresentation), (int)HttpStatusCode.OK)]
+        public async Task<ResourceLastUpdateRepresentation> HeadResource(string id)
         {
             var view = await resourceService.GetAsync(id);
 
-            if (view == ResourceView.Empty)
-            {
-                return this.NotFound();
-            }
-
-            Response.Headers.Add("last-update", new StringValues(view.Created.ToString("s")));
-
-            return this.Ok();
+            return RepresentationFactory.MakeLastUpdateRepresentation(view);
         }
 
         [HttpGet()]

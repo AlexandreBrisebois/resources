@@ -5,6 +5,17 @@ namespace Megaphone.Resources.Representations
 {
     public partial class RepresentationFactory
     {
+        public static ResourceLastUpdateRepresentation MakeLastUpdateRepresentation(ResourceView view)
+        {
+            var r = new ResourceLastUpdateRepresentation
+            {
+                LastUpdated = view.Created
+            };
+
+            r.AddLink(Relations.Self, $"/api/resources/{view.Id}");
+
+            return r;
+        }
         public static ResourceRepresentation MakeRepresentation(ResourceView view)
         {
             var r = new ResourceRepresentation
