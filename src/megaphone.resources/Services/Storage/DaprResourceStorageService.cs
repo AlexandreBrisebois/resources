@@ -3,7 +3,7 @@ using Megaphone.Resources.Core.Models;
 using Megaphone.Resources.Core.Services.Storage;
 using System.Threading.Tasks;
 
-namespace Megaphone.Resources.Services
+namespace Megaphone.Resources.Services.Storage
 {
     public class DaprResourceStorageService : IResourceStorageService
     {

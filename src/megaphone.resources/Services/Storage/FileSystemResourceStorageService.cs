@@ -5,7 +5,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Megaphone.Resources.Services
+namespace Megaphone.Resources.Services.Storage
 {
     public class FileSystemResourceStorageService : IResourceStorageService
     {
@@ -18,7 +18,7 @@ namespace Megaphone.Resources.Services
 
         public async Task<StorageEntry<Resource>> GetAsync(string partitionKey, string contentKey)
         {
-            string filePath = $"{path}/{partitionKey}/{contentKey}";
+            string filePath = $"{path}/{partitionKey}/{contentKey}.json";
 
             if (File.Exists(filePath))
             {
@@ -35,7 +35,7 @@ namespace Megaphone.Resources.Services
 
         public async Task SetAsync(string partitionKey, string contentKey, StorageEntry<Resource> content)
         {
-            string filePath = $"{path}/{partitionKey}/{contentKey}";
+            string filePath = $"{path}/{partitionKey}/{contentKey}.json";
 
             var fileInfo = new FileInfo(filePath);
             fileInfo.Directory.Create();

@@ -2,6 +2,7 @@ using Megaphone.Resources.Core.Services.Events;
 using Megaphone.Resources.Core.Services.Storage;
 using Megaphone.Resources.Services;
 using Megaphone.Resources.Services.Events;
+using Megaphone.Resources.Services.Storage;
 using Megaphone.Standard.Time;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +32,8 @@ namespace Megaphone.Resources
             if (Debugger.IsAttached)
             {
                 services.AddSingleton<IEventService, MockEventService>();
-                services.AddSingleton<IResourceStorageService, InMemoryResourceStorageService>();
+                //services.AddSingleton<IResourceStorageService, InMemoryResourceStorageService>();
+                services.AddSingleton<IResourceStorageService>(new FileSystemResourceStorageService());
             }
             else
             {
