@@ -19,7 +19,7 @@ namespace Megaphone.Resources.Core.Tests
         {
             var id = "d64bc5a5-f2d2-572c-bfbf-b99e5340c0d9";
             var service = new ResourceService(new InMemoryResourceStorageService());
-            await service.AddAsync(new Resource() { Id = id });
+            Uri uri = new Uri("https://devblogs.microsoft.com/dotnet/staying-safe-with-dotnet-containers/");
         }
 
         [Fact]
