@@ -1,6 +1,8 @@
-using Dapr.Client;
-using megaphone.resources.core;
+using Megaphone.Resources.Core.Services.Events;
+using Megaphone.Resources.Core.Services.Storage;
 using Megaphone.Resources.Services;
+using Megaphone.Resources.Services.Events;
+using Megaphone.Standard.Time;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Diagnostics;
 
 namespace Megaphone.Resources
 {
@@ -23,10 +26,31 @@ namespace Megaphone.Resources
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var daprClient = new DaprClientBuilder().Build();
-
             services.AddControllers().AddDapr();
-            services.AddSingleton<IResourceService>(new ResourceService(new ResourceStorageService(daprClient)));
+
+            if (Debugger.IsAttached)
+            {
+                services.AddSingleton<IEventService, MockEventService>();
+                services.AddSingleton<IResourceStorageService, InMemoryResourceStorageService>();
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("USE-VOLUME-STORAGE")))
+                {
+                    services.AddSingleton<IResourceStorageService, DaprResourceStorageService>();
+                }
+                else
+                {
+                    services.AddSingleton<IResourceStorageService>(new FileSystemResourceStorageService());
+                }
+
+                services.AddSingleton<IEventService, DaprEventService>();
+            }
+
+            services.AddSingleton<IClock, UtcClock>();
+
+            services.AddSingleton<IResourceService,ResourceService>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Megaphone.Resources", Version = "v1" });

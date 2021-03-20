@@ -4,13 +4,15 @@ namespace Megaphone.Resources.Core.Views
 {
     public class ResourceCacheView
     {
-        [JsonPropertyName("display")]
-        public string Cache { get; set; }
+        [JsonPropertyName("cache")]
+        public string Cache { get; set; } = string.Empty;
 
         [JsonPropertyName("url")]
-        public string Url { get; set; }
+        public string Url { get; set; } = string.Empty;
 
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
+
+        public static readonly ResourceCacheView Empty = new();
     }
 }

@@ -1,14 +1,9 @@
-﻿using Dapr.Client;
-using megaphone.resources.core;
-using Megaphone.Resources.Commands;
-using Megaphone.Resources.Core.Models;
-using Megaphone.Resources.Core.Views;
+﻿using Megaphone.Resources.Core.Models;
+using Megaphone.Resources.Core.Services.Events;
+using Megaphone.Resources.Core.Services.Storage;
 using Megaphone.Resources.Events;
 using Megaphone.Resources.Representations;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-using System;
-using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -19,13 +14,13 @@ namespace Megaphone.Resources.Controllers
     public class ResourceController : ControllerBase
     {
         private readonly IResourceService resourceService;
-        private readonly DaprClient daprClient;
+        private readonly IEventService eventService;
 
-        public ResourceController(IResourceService resourceService,
-                                  [FromServices] DaprClient daprClient)
+        public ResourceController([FromServices] IResourceService resourceService,
+                                  [FromServices] IEventService eventService)
         {
             this.resourceService = resourceService;
-            this.daprClient = daprClient;
+            this.eventService = eventService;
         }
 
         [Route("")]
@@ -36,42 +31,38 @@ namespace Megaphone.Resources.Controllers
             await resourceService.AddAsync(resource);
 
             var e = EventFactory.MakeResourceUpdateEvent(resource);
-
-            var c = new PublishResourceUpdateEvent(e);
-            await c.ApplyAsync(daprClient);
-
-            if (Debugger.IsAttached)
-                Console.WriteLine($"updated resource: \"{resource.Display}\" ({resource.Published.ToString("s")})");
+            await eventService.PublishAsync(e);
 
             return Accepted();
         }
 
         [HttpGet()]
-        [Route("{id}")]
+        [Route("{host}/{id}")]
         [ProducesResponseType(typeof(ResourceRepresentation),(int)HttpStatusCode.OK)]
-        public async Task<ResourceRepresentation> GetResource(string id)
+        public async Task<ResourceRepresentation> GetResource(string host, string id)
         {
-            var view = await resourceService.GetAsync(id);
+            var view = await resourceService.GetAsync(host, id);
 
             var representation = RepresentationFactory.MakeRepresentation(view);
             return representation;
         }
 
         [HttpGet()]
-        [Route("{id}/last-updated")]
+        [Route("{host}/{id}/last-updated")]
         [ProducesResponseType(typeof(ResourceLastUpdateRepresentation), (int)HttpStatusCode.OK)]
-        public async Task<ResourceLastUpdateRepresentation> HeadResource(string id)
+        public async Task<ResourceLastUpdateRepresentation> HeadResource(string host, string id)
         {
-            var view = await resourceService.GetAsync(id);
+            var view = await resourceService.GetAsync(host, id);
 
             return RepresentationFactory.MakeLastUpdateRepresentation(view);
         }
 
         [HttpGet()]
-        [Route("{id}/cache")]
-        public async Task<ResourceCacheRepresentation> GetResourceCache(string id)
+        [Route("{host}/{id}/cache")]
+        [ProducesResponseType(typeof(ResourceCacheRepresentation), (int)HttpStatusCode.OK)]
+        public async Task<ResourceCacheRepresentation> GetResourceCache(string host, string id)
         {
-            var view = await resourceService.GetCacheAsync(id);
+            var view = await resourceService.GetCacheAsync(host,id);
             var representation = RepresentationFactory.MakeRepresentation(view);
             return representation;
         }

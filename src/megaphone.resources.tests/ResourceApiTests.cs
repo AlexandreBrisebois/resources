@@ -1,12 +1,3 @@
-using megaphone.resources.core;
-using Megaphone.Resources.Controllers;
-using Megaphone.Resources.Core.Models;
-using Megaphone.Standard.Services;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using Xunit;
-
 namespace Megaphone.Resources.Tests
 {
     public class ResourceApiTests

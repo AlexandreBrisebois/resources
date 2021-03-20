@@ -1,5 +1,6 @@
 ﻿using Megaphone.Resources.Core.Views;
 using Megaphone.Standard.Representations.Links;
+using System;
 
 namespace Megaphone.Resources.Representations
 {
@@ -14,7 +15,7 @@ namespace Megaphone.Resources.Representations
                 LastUpdated = view.Created
             };
 
-            r.AddLink(Relations.Self, $"/api/resources/{view.Id}");
+            r.AddLink(Relations.Self, $"/api/resources/{new Uri(view.Url).Host}/{view.Id}");
 
             return r;
         }
@@ -32,7 +33,7 @@ namespace Megaphone.Resources.Representations
                 Type = view.Type
             };
 
-            r.AddLink(Relations.Self, $"/api/resources/{view.Id}");
+            r.AddLink(Relations.Self, $"/api/resources/{new Uri(view.Url).Host}/{view.Id}");
 
             return r;
         }
@@ -45,7 +46,7 @@ namespace Megaphone.Resources.Representations
                 Cache = view.Cache
             };
 
-            r.AddLink(Relations.Self, $"/api/resources/{view.Id}");
+            r.AddLink(Relations.Self, $"/api/resources/{new Uri(view.Url).Host}/{view.Id}");
 
             return r;
         }

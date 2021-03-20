@@ -2,12 +2,12 @@
 using Megaphone.Resources.Core.Views;
 using System.Threading.Tasks;
 
-namespace megaphone.resources.core
+namespace Megaphone.Resources.Core.Services.Storage
 {
     public interface IResourceService
     {
         Task AddAsync(Resource r);
-        Task<ResourceView> GetAsync(string id);
-        Task<ResourceCacheView> GetCacheAsync(string id);
+        Task<ResourceView> GetAsync(string host, string id);
+        Task<ResourceCacheView> GetCacheAsync(string host, string id);
     }
 }
