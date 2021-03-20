@@ -15,7 +15,8 @@ namespace Megaphone.Resources.Representations
                 LastUpdated = view.Created
             };
 
-            r.AddLink(Relations.Self, $"/api/resources/{new Uri(view.Url).Host}/{view.Id}");
+            if (view != ResourceView.Empty)
+                r.AddLink(Relations.Self, $"/api/resources/{new Uri(view.Url).Host}/{view.Id}");
 
             return r;
         }
