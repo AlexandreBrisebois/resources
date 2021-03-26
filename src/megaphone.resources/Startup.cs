@@ -1,6 +1,5 @@
 using Megaphone.Resources.Core.Services.Events;
 using Megaphone.Resources.Core.Services.Storage;
-using Megaphone.Resources.Services;
 using Megaphone.Resources.Services.Events;
 using Megaphone.Resources.Services.Storage;
 using Megaphone.Standard.Time;

@@ -15,7 +15,17 @@ namespace Megaphone.Resources.Core.Services.Storage
 
         public async Task AddAsync(Resource r)
         {
-            await storageService.SetAsync(r.Self.Host, r.Id, new StorageEntry<Resource> { Value = r });
+            var entity = await storageService.GetAsync(r.Self.Host, r.Id);
+
+            if (entity.HasValue)
+            {
+                entity.Value = r;
+                await storageService.SetAsync(r.Self.Host, r.Id, entity);
+            }
+            else
+            {
+                await storageService.SetAsync(r.Self.Host, r.Id, new StorageEntry<Resource> { Value = r });
+            }
         }
 
         public async Task<ResourceView> GetAsync(string host, string id)
